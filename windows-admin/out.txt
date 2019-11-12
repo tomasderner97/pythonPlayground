@@ -1,0 +1,97 @@
+[dynamic: ToInstance, provider("CIMWin32"): ToInstance, SupportsCreate, CreateBy("Create"), SupportsDelete, DeleteBy("DeleteInstance"), Locale(1033): ToInstance, UUID("{8502C4DC-5FBB-11D2-AAC1-006008C78BC7}"): ToInstance]
+class Win32_Process : CIM_Process
+{
+	[Override("KernelModeTime")] uint64 KernelModeTime = NULL;
+	[read: ToSubClass, Override("Priority"): ToSubClass, MappingStrings{"Win32API|Process Status|SYSTEM_PROCESS_INFORMATION|BasePriority"}: ToSubClass] uint32 Priority = NULL;
+	[Override("UserModeTime")]                                                                                                                          uint64 UserModeTime = NULL;
+	[read: ToSubClass, Privileges{"SeDebugPrivilege"}: ToSubClass, MappingStrings{"Win32API|Tool Help Structures|MODULEENTRY32|szExePath"}: ToSubClass] string ExecutablePath;
+	[read: ToSubClass, Privileges{"SeDebugPrivilege"}: ToSubClass, MappingStrings{"Win32|WINNT.H|QUOTA_LIMITS|MaximumWorkingSetSize"}: ToSubClass]      uint32 MaximumWorkingSetSize;
+	[read: ToSubClass, Privileges{"SeDebugPrivilege"}: ToSubClass, MappingStrings{"Win32|WINNT.H|QUOTA_LIMITS|MinimumWorkingSetSize"}: ToSubClass]      uint32 MinimumWorkingSetSize;
+	[read: ToSubClass, MappingStrings{"Win32API|Process Status|SYSTEM_PROCESS_INFORMATION|PageFaultCount"}: ToSubClass]                                 uint32 PageFaults;
+	[read: ToSubClass, MappingStrings{"Win32API|Process Status|SYSTEM_PROCESS_INFORMATION|PagefileUsage"}: ToSubClass]                                  uint32 PageFileUsage;
+	[read: ToSubClass, MappingStrings{"Win32API|Process Status|SYSTEM_PROCESS_INFORMATION|PeakPagefileUsage"}: ToSubClass]                              uint32 PeakPageFileUsage;
+	[read: ToSubClass, MappingStrings{"Win32API|Process Status|SYSTEM_PROCESS_INFORMATION|PeakWorkingSetSize"}: ToSubClass]                             uint32 PeakWorkingSetSize;
+	[read: ToSubClass, MappingStrings{"Win32API|Process and Thread Structures|PROCESS_INFORMATION|dwProcessId "}: ToSubClass]                           uint32 ProcessId;
+	[read: ToSubClass, MappingStrings{"Win32API|Process Status|SYSTEM_PROCESS_INFORMATION|QuotaNonPagedPoolUsage"}: ToSubClass]                         uint32 QuotaNonPagedPoolUsage;
+	[read: ToSubClass, MappingStrings{"Win32API|Process Status|SYSTEM_PROCESS_INFORMATION|QuotaPagedPoolUsage"}: ToSubClass]                            uint32 QuotaPagedPoolUsage;
+	[read: ToSubClass, MappingStrings{"Win32API|Process Status|SYSTEM_PROCESS_INFORMATION|QuotaPeakNonPagedPoolUsage"}: ToSubClass]                     uint32 QuotaPeakNonPagedPoolUsage;
+	[read: ToSubClass, MappingStrings{"Win32API|Process Status|SYSTEM_PROCESS_INFORMATION|QuotaPeakPagedPoolUsage"}: ToSubClass]                        uint32 QuotaPeakPagedPoolUsage;
+	[read: ToSubClass, MappingStrings{"Win32API|Process and Thread Functions|GetProcessVersion"}: ToSubClass]                                           string WindowsVersion;
+	[read: ToSubClass, MappingStrings{"Win32API|Process Status|SYSTEM_PROCESS_INFORMATION|NumberOfThreads"}: ToSubClass]                                uint32 ThreadCount;
+	[read: ToSubClass, MappingStrings{"Win32API|Process Status|SYSTEM_PROCESS_INFORMATION|HandleCount"}: ToSubClass]                                    uint32 HandleCount;
+	[read: ToSubClass, MappingStrings{"Win32API|Process Status|SYSTEM_PROCESS_INFORMATION|InheritedFromUniqueProcessId"}: ToSubClass]                   uint32 ParentProcessId;
+	[read: ToSubClass, MappingStrings{"Win32API|Process Status|SYSTEM_PROCESS_INFORMATION|SessionId"}: ToSubClass]                                      uint32 SessionId;
+	[read: ToSubClass, MappingStrings{"Win32API|Process Status|SYSTEM_PROCESS_INFORMATION|PrivatePageCount"}: ToSubClass]                               uint64 PrivatePageCount;
+	[read: ToSubClass, MappingStrings{"Win32API|Process Status|SYSTEM_PROCESS_INFORMATION|PeakVirtualSize"}: ToSubClass]                                uint64 PeakVirtualSize;
+	[read: ToSubClass, MappingStrings{"Win32API|Process Status|SYSTEM_PROCESS_INFORMATION|VirtualSize"}: ToSubClass]                                    uint64 VirtualSize;
+	[read: ToSubClass, MappingStrings{"Win32API|Process and Thread Structures|SYSTEM_PROCESS_INFORMATION|ReadOperationCount"}: ToSubClass]              uint64 ReadOperationCount;
+	[read: ToSubClass, MappingStrings{"Win32API|Process and Thread Structures|SYSTEM_PROCESS_INFORMATION|WriteOperationCount"}: ToSubClass]             uint64 WriteOperationCount;
+	[read: ToSubClass, MappingStrings{"Win32API|Process and Thread Structures|SYSTEM_PROCESS_INFORMATION|OtherOperationCount"}: ToSubClass]             uint64 OtherOperationCount;
+	[read: ToSubClass, MappingStrings{"Win32API|Process and Thread Structures|SYSTEM_PROCESS_INFORMATION|ReadTransferCount"}: ToSubClass]               uint64 ReadTransferCount;
+	[read: ToSubClass, MappingStrings{"Win32API|Process and Thread Structures|SYSTEM_PROCESS_INFORMATION|WriteTransferCount"}: ToSubClass]              uint64 WriteTransferCount;
+	[read: ToSubClass, MappingStrings{"Win32API|Process and Thread Structures|SYSTEM_PROCESS_INFORMATION|OtherTransferCount"}: ToSubClass]              uint64 OtherTransferCount;
+	[read: ToSubClass]                                                                                                                                  string CommandLine;
+	[
+		Constructor, Static, Implemented, Privileges{"SeAssignPrimaryTokenPrivilege", "SeIncreaseQuotaPrivilege", "SeRestorePrivilege"}: ToSubClass, 
+		ValueMap{"0", "2", "3", "8", "9", "21", ".."}: ToSubClass, 
+		MappingStrings{"Win32API|Process and Thread Functions|CreateProcess"}: ToSubClass
+	] uint32 Create(
+		[
+			In, MappingStrings{"Win32API|Process and Thread Functions|lpCommandLine "}: ToSubClass
+		] string CommandLine, 
+		[
+			In, MappingStrings{"Win32API|Process and Thread Functions|CreateProcess|lpCurrentDirectory "}: ToSubClass
+		] string CurrentDirectory, 
+		[
+			In, MappingStrings{"WMI|Win32_ProcessStartup"}: ToSubClass
+		] Win32_ProcessStartup ProcessStartupInformation, 
+		[
+			Out, MappingStrings{"Win32API|Process and Thread Functions|CreateProcess|lpProcessInformation|dwProcessId"}: ToSubClass
+		] uint32 ProcessId
+	);
+	[
+		Destructor, Implemented, Privileges{"SeDebugPrivilege"}: ToSubClass, 
+		ValueMap{"0", "2", "3", "8", "9", "21", ".."}: ToSubClass, 
+		MappingStrings{"Win32API|Process and Thread Functions|TerminateProcess"}: ToSubClass
+	] uint32 Terminate(
+		[
+			In, MappingStrings{"Win32API|Process and Thread Functions|TerminateProcess|uExitCode "}: ToSubClass
+		] uint32 Reason
+	);
+	[
+		Implemented, ValueMap{"0", "2", "3", "8", "9", "21", ".."}: ToSubClass, MappingStrings{"WMI"}: ToSubClass
+	] uint32 GetOwner(
+		[
+			Out, MappingStrings{"WMI"}: ToSubClass
+		] string User, 
+		[
+			Out, MappingStrings{"WMI"}: ToSubClass
+		] string Domain
+	);
+	[
+		Implemented, ValueMap{"0", "2", "3", "8", "9", "21", ".."}: ToSubClass, MappingStrings{"WMI"}: ToSubClass
+	] uint32 GetOwnerSid(
+		[
+			Out, MappingStrings{"WMI"}: ToSubClass
+		] string Sid
+	);
+	[
+		Implemented, ValueMap{"0", "2", "3", "8", "9", "21", ".."}: ToSubClass,
+		MappingStrings{"Win32API|Process and Thread Functions|SetPriorityClass"}: ToSubClass
+	] uint32 SetPriority(
+		[
+			in, MappingStrings{"Win32API|Process and Thread Functions|SetPriorityClass|dwPriorityClass"}: ToSubClass, 
+			ValueMap{"0x00000040", "0x00004000", "0x00000020", "0x00008000", "0x00000080", "0x00000100"}: ToSubClass
+		] sint32 Priority
+	);
+	[
+		ValueMap{"0", "2", "3", "8", "9", "21", ".."}: ToSubClass, Implemented
+	] uint32 AttachDebugger();
+	[
+		ValueMap{"0", "2", "3", "8", "9", "21", ".."}: ToSubClass, Implemented
+	] uint32 GetAvailableVirtualSize(
+		[
+			Out, MappingStrings{"WMI"}: ToSubClass
+		] uint64 AvailableVirtualSize
+	);
+};
