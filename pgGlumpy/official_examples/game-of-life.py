@@ -7,9 +7,12 @@
 # Abstract: GPU computing using the framebuffer
 # Keywords: framebuffer, GPU computing, cellular automata
 # -----------------------------------------------------------------------------
-import numpy as np
-from glumpy import app, gl, glm, gloo
 
+import numpy as np
+from glumpy import app, gl, gloo
+
+WIDTH = 1800
+HEIGHT = 1024
 
 render_vertex = """
 attribute vec2 position;
@@ -96,14 +99,14 @@ void main(void)
 }
 """
 
+window = app.Window(width=WIDTH, height=HEIGHT)
 
-window = app.Window(width=512, height=512)
 
 @window.event
 def on_draw(dt):
     global pingpong
 
-    width,height = 512,512
+    width, height = WIDTH, HEIGHT
 
     pingpong = 1 - pingpong
     compute["pingpong"] = pingpong
@@ -121,7 +124,7 @@ def on_draw(dt):
     render.draw(gl.GL_TRIANGLE_STRIP)
 
 
-w, h = 512,512
+w, h = WIDTH, HEIGHT
 Z = np.zeros((h, w, 4), dtype=np.float32)
 Z[...] = np.random.randint(0, 2, (h, w, 4))
 Z[:256, :256, :] = 0
@@ -154,7 +157,6 @@ compute["texcoord"] = [(0, 0), (0, 1), (1, 0), (1, 1)]
 compute['dx'] = 1.0 / w
 compute['dy'] = 1.0 / h
 compute['pingpong'] = pingpong
-
 
 render = gloo.Program(render_vertex, render_fragment, count=4)
 render["position"] = [(-1, -1), (-1, +1), (+1, -1), (+1, +1)]
